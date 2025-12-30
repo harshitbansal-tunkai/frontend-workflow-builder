@@ -1,8 +1,13 @@
 import { memo } from "react";
-import { Handle, Position } from "@xyflow/react";
+import { Handle, Position, useReactFlow } from "@xyflow/react";
 import type { NodeProps } from "@xyflow/react";
 
-const PromptNode = ({ data, selected }: NodeProps) => {
+const PromptNode = ({ id, data, selected }: NodeProps) => {
+  const { deleteElements } = useReactFlow();
+
+  const handleDelete = () => {
+    deleteElements({ nodes: [{ id }] });
+  };
   const label =
     typeof (data as { label?: unknown })?.label === "string"
       ? (data as { label: string }).label
@@ -28,6 +33,13 @@ const PromptNode = ({ data, selected }: NodeProps) => {
         selected ? "border-blue-500" : "border-blue-400"
       }`}
     >
+      <button
+        onClick={handleDelete}
+        className="absolute top-1 right-1 text-xs text-gray-400 hover:text-red-500"
+        title="Delete node"
+      >
+        ✕
+      </button>
       {/* Input handle */}
       <Handle
         type="target"
