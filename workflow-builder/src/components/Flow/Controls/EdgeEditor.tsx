@@ -9,28 +9,25 @@ interface EdgeEditorProps {
 }
 
 const EdgeEditor = ({
-  selectedEdge,
-  onUpdateEdge,
-  onDeleteEdge,
-  onClose,
+  selectedEdge, // ✅ Just destructure normally
+  onUpdateEdge, // ✅ Just destructure normally
+  onDeleteEdge, // ✅ Just destructure normally
+  onClose, // ✅ Just destructure normally
 }: EdgeEditorProps) => {
   const [edgeType, setEdgeType] = useState("default");
   const [condition, setCondition] = useState("");
 
+  // ✅ Single useEffect with all logic
   useEffect(() => {
     if (selectedEdge) {
       setEdgeType(selectedEdge.type || "default");
 
-      useEffect(() => {
-        if (selectedEdge) {
-          const condition =
-            typeof selectedEdge.data?.condition === "string"
-              ? selectedEdge.data.condition
-              : "";
+      const condition =
+        typeof selectedEdge.data?.condition === "string"
+          ? selectedEdge.data.condition
+          : "";
 
-          setCondition(condition);
-        }
-      }, [selectedEdge]);
+      setCondition(condition);
     }
   }, [selectedEdge]);
 
