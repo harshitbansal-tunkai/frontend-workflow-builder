@@ -14,7 +14,7 @@ const PromptNode = ({ id, data, selected }: NodeProps) => {
       : undefined;
 
   const systemPrompt =
-    typeof (data as { systemPrompt?: unknown })?.systemPrompt === "string"
+    typeof (data as {   systemPrompt?: unknown })?.systemPrompt === "string"
       ? (data as { systemPrompt: string }).systemPrompt
       : undefined;
 

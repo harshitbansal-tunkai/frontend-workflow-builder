@@ -1,12 +1,14 @@
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, type ChangeEventHandler } from "react";
 import {
   ReactFlow,
   Background,
   Controls,
   MiniMap,
+  Panel,
   applyNodeChanges,
   applyEdgeChanges,
   addEdge,
+  type ColorMode,
 } from "@xyflow/react";
 
 import type {
@@ -37,6 +39,7 @@ export default function App() {
   const [edges, setEdges] = useState<Edge[]>(initialEdges);
   const [selectedNode, setSelectedNode] = useState<Node | null>(null);
   const [selectedEdge, setSelectedEdge] = useState<Edge | null>(null);
+  const [colorMode, setColorMode] = useState<ColorMode>("system");
   const nodeIdCounter = useRef(1);
   const edgeIdCounter = useRef(1);
 
@@ -128,6 +131,14 @@ export default function App() {
     setSelectedEdge(null);
   }, []);
 
+  //color change
+  const onChange: ChangeEventHandler<HTMLSelectElement> = (evt) => {
+    setColorMode(evt.target.value as ColorMode);
+  };
+  const toggleColorMode = () => {
+    setColorMode((prev) => (prev === "dark" ? "light" : "dark"));
+  };
+
   return (
     <div style={{ width: "100vw", height: "100vh" }}>
       <ReactFlow
@@ -141,10 +152,24 @@ export default function App() {
         onPaneClick={onPaneClick}
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
+        colorMode={colorMode}
         fitView
       >
         <Background />
         <Controls />
+        <Panel position="top-right">
+          <button
+            onClick={toggleColorMode}
+            className={`px-3 py-2 rounded text-sm border transition-colors
+    ${
+      colorMode === "dark"
+        ? "text-white border-gray-600 bg-gray-800 hover:bg-gray-700"
+        : "text-black border-gray-300 bg-white hover:bg-gray-100"
+    }`}
+          >
+            {colorMode === "dark" ? "🌙 Dark" : "☀️ Light"}
+          </button>
+        </Panel>
         <MiniMap />
       </ReactFlow>
 

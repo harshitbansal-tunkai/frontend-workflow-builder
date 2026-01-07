@@ -20,7 +20,7 @@ export const NODE_TYPES_CONFIG: NodeTypeConfig[] = [
     description: "AI prompt execution node",
     defaultData: {
       systemPrompt: "You are a helpful assistant.",
-      userPrompt: "Process: {{input}}",
+      userPrompt: " {{message}}",
       model: "gpt-4o",
       temperature: 0.7,
     },
